@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tareas Asignadas</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <style>
+    /* Estilos personalizados */
+    .sidebar {
+      height: 100vh;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #4B5563;
+      padding-top: 20px;
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #374151;
+      border-left: 4px solid #10B981;
+      padding-left: 16px;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 40px;
+      background-color: #F3F4F6;
+      min-height: 100vh;
+    }
+
+    .table-container {
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background-color: #4F46E5;
+      color: white;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    tbody tr:hover {
+      background-color: #F3F4F6;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+
+    .badge-completado {
+      background-color: #10B981;
+      color: white;
+    }
+
+    .badge-pendiente {
+      background-color: #FBBF24;
+      color: white;
+    }
+
+    .badge-en-progreso {
+      background-color: #60A5FA;
+      color: white;
+    }
+
+    .button {
+      background-color: #4F46E5;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #4338CA;
+    }
+
+    .form-button {
+      background-color: #10B981;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-button:hover {
+      background-color: #059669;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Barra de navegación lateral -->
+  <div class="sidebar">
+    <h2 class="text-white text-2xl text-center mb-6 font-semibold">Menú</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="mis-pacientes.html">Mis Pacientes</a>
+    <a href="proximas-citas.html">Próximas Citas</a>
+    <a href="mi-desempeno.html">Mi Desempeño</a>
+    <a href="historial-clinico.html">Historial Clínico</a>
+    <a href="gestion-pacientes.html">Gestión de Pacientes</a>
+    <a href="tareas-asignadas.html" class="bg-gray-700">Tareas Asignadas</a>
+    <a href="recursos-aprendizaje.html">Recursos de Aprendizaje</a>
+    <a href="consultas-profesores.html">Consultas a Profesores</a>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">Tareas Asignadas</h1>
+
+    <!-- Tabla de Tareas Asignadas -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Tarea</th>
+            <th>Asignada por</th>
+            <th>Fecha límite</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Informe de caso clínico</td>
+            <td>Dr. García</td>
+            <td>20/05/2023</td>
+            <td><span class="badge badge-pendiente">Pendiente</span></td>
+            <td>
+              <button class="button">Entregar</button>
+              <button class="button">Solicitar Aplazamiento</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Presentación sobre higiene dental</td>
+            <td>Dra. Rodríguez</td>
+            <td>25/05/2023</td>
+            <td><span class="badge badge-en-progreso">En progreso</span></td>
+            <td>
+              <button class="button">Ver Detalles</button>
+              <button class="button">Solicitar Aplazamiento</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Actualización de expediente</td>
+            <td>Dr. López</td>
+            <td>30/05/2023</td>
+            <td><span class="badge badge-completado">Completado</span></td>
+            <td><button class="button">Ver Retroalimentación</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Formulario para Subir Respuesta -->
+    <div class="table-container">
+      <h2 class="text-2xl font-bold mb-4">Subir Respuesta</h2>
+      <form>
+        <div class="mb-4">
+          <label for="archivo" class="block text-gray-700 font-bold mb-2">Subir Archivo</label>
+          <input type="file" id="archivo" class="form-input border-gray-300">
+        </div>
+
+        <div class="mb-6">
+          <button type="submit" class="form-button">Subir</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

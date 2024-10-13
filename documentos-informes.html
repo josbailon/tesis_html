@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentos e Informes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <style>
+    /* Estilos personalizados */
+    .sidebar {
+      height: 100vh;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #4B5563;
+      padding-top: 20px;
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #374151;
+      border-left: 4px solid #10B981;
+      padding-left: 16px;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 40px;
+      background-color: #F3F4F6;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .form-input, .form-textarea {
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #D1D5DB;
+      border-radius: 8px;
+      background-color: #F9FAFB;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #10B981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    .form-button {
+      background-color: #10B981;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-button:hover {
+      background-color: #059669;
+    }
+
+    .table-container {
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    thead {
+      background-color: #4F46E5;
+      color: white;
+    }
+
+    tbody tr:hover {
+      background-color: #F3F4F6;
+    }
+
+    .button {
+      background-color: #4F46E5;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #4338CA;
+    }
+
+    .badge-pendiente {
+      background-color: #FBBF24;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+
+    .badge-completado {
+      background-color: #10B981;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Barra de navegación lateral -->
+  <div class="sidebar">
+    <h2 class="text-white text-2xl text-center mb-6 font-semibold">Menú</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="mis-pacientes.html">Mis Pacientes</a>
+    <a href="proximas-citas.html">Próximas Citas</a>
+    <a href="mi-desempeno.html">Mi Desempeño</a>
+    <a href="historial-clinico.html">Historial Clínico</a>
+    <a href="gestion-pacientes.html">Gestión de Pacientes</a>
+    <a href="tareas-asignadas.html">Tareas Asignadas</a>
+    <a href="recursos-aprendizaje.html">Recursos de Aprendizaje</a>
+    <a href="consultas-profesores.html">Consultas a Profesores</a>
+    <a href="documentos-informes.html" class="bg-gray-700">Documentos e Informes</a>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">Documentos e Informes</h1>
+
+    <!-- Formulario para subir documentos -->
+    <div class="form-container">
+      <h2 class="text-2xl font-bold mb-4">Subir Nuevo Documento</h2>
+      <form>
+        <div class="mb-4">
+          <label for="archivo" class="form-label">Seleccionar Archivo</label>
+          <input type="file" id="archivo" class="form-input">
+        </div>
+        
+        <div class="mb-4">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <textarea id="descripcion" class="form-textarea" placeholder="Descripción del documento"></textarea>
+        </div>
+
+        <div class="mb-6">
+          <button type="submit" class="form-button">Subir Documento</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Tabla de documentos e informes -->
+    <div class="table-container">
+      <h2 class="text-2xl font-bold mb-4">Documentos Subidos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Descripción</th>
+            <th>Fecha de Subida</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Informe Clínico María López</td>
+            <td>Informe detallado sobre el tratamiento de ortodoncia de María López</td>
+            <td>10/05/2023</td>
+            <td>
+              <button class="button">Descargar</button>
+              <button class="button">Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Radiografía Juan Pérez</td>
+            <td>Imagen de la radiografía previa al tratamiento de endodoncia</td>
+            <td>15/05/2023</td>
+            <td>
+              <button class="button">Descargar</button>
+              <button class="button">Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Plan de Tratamiento Ana Rodríguez</td>
+            <td>Plan completo del tratamiento odontológico de Ana Rodríguez</td>
+            <td>20/05/2023</td>
+            <td>
+              <button class="button">Descargar</button>
+              <button class="button">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

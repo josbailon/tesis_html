@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Pacientes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <style>
+    /* Estilos personalizados */
+    .sidebar {
+      height: 100vh;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #4B5563;
+      padding-top: 20px;
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #374151;
+      border-left: 4px solid #10B981;
+      padding-left: 16px;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 40px;
+      background-color: #F3F4F6;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .form-input, .form-textarea {
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #D1D5DB;
+      border-radius: 8px;
+      background-color: #F9FAFB;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #10B981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    .form-textarea {
+      min-height: 100px;
+    }
+
+    .form-button {
+      background-color: #10B981;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-button:hover {
+      background-color: #059669;
+    }
+
+    .select-input {
+      margin-top: 8px;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #D1D5DB;
+      border-radius: 8px;
+      background-color: #F9FAFB;
+    }
+
+    .table-container {
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    thead {
+      background-color: #4F46E5;
+      color: white;
+    }
+
+    tbody tr:hover {
+      background-color: #F3F4F6;
+    }
+
+    .button-edit {
+      background-color: #4F46E5;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-edit:hover {
+      background-color: #4338CA;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Barra de navegación lateral -->
+  <div class="sidebar">
+    <h2 class="text-white text-2xl text-center mb-6 font-semibold">Menú</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="mis-pacientes.html">Mis Pacientes</a>
+    <a href="proximas-citas.html">Próximas Citas</a>
+    <a href="mi-desempeno.html">Mi Desempeño</a>
+    <a href="historial-clinico.html">Historial Clínico</a>
+    <a href="gestion-pacientes.html" class="bg-gray-700">Gestión de Pacientes</a>
+    <a href="tareas-asignadas.html">Tareas Asignadas</a>
+    <a href="recursos-aprendizaje.html">Recursos de Aprendizaje</a>
+    <a href="consultas-profesores.html">Consultas a Profesores</a>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">Gestión de Pacientes</h1>
+
+    <!-- Formulario para agregar y modificar pacientes -->
+    <div class="form-container mb-10">
+      <form>
+        <div class="mb-4">
+          <label for="nombre" class="form-label">Nombre del Paciente</label>
+          <input type="text" id="nombre" class="form-input" placeholder="Nombre completo">
+        </div>
+        
+        <div class="mb-4">
+          <label for="identificacion" class="form-label">Identificación</label>
+          <input type="text" id="identificacion" class="form-input" placeholder="Número de identificación">
+        </div>
+        
+        <div class="mb-4">
+          <label for="contacto" class="form-label">Contacto</label>
+          <input type="text" id="contacto" class="form-input" placeholder="Teléfono o correo electrónico">
+        </div>
+
+        <div class="mb-4">
+          <label for="historial" class="form-label">Historial Médico</label>
+          <textarea id="historial" class="form-textarea" placeholder="Historial médico del paciente"></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="diagnostico" class="form-label">Diagnóstico</label>
+          <textarea id="diagnostico" class="form-textarea" placeholder="Diagnósticos relevantes"></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="medicacion" class="form-label">Medicaciones</label>
+          <textarea id="medicacion" class="form-textarea" placeholder="Medicaciones actuales"></textarea>
+        </div>
+
+        <div class="mb-6">
+          <button type="submit" class="form-button">Guardar Paciente</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Tabla de pacientes -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Identificación</th>
+            <th>Contacto</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>María López</td>
+            <td>123456789</td>
+            <td>maria@example.com</td>
+            <td><button class="button-edit">Editar</button></td>
+          </tr>
+          <tr>
+            <td>Juan Pérez</td>
+            <td>987654321</td>
+            <td>juan@example.com</td>
+            <td><button class="button-edit">Editar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

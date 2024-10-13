@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de Estudiante</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Estilos personalizados para la barra lateral */
+    .sidebar {
+      height: 100vh;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #2D3748;
+      padding-top: 20px;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    .sidebar h2 {
+      color: white;
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+    }
+
+    .sidebar a i {
+      margin-right: 10px;
+    }
+
+    .sidebar a:hover {
+      background-color: #4A5568;
+      border-left: 4px solid #10B981;
+      padding-left: 16px;
+    }
+
+    .sidebar a.active {
+      background-color: #1A202C;
+      border-left: 4px solid #10B981;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 40px;
+      background-color: #F3F4F6;
+      min-height: 100vh;
+    }
+
+    /* Ocultar la barra lateral en dispositivos pequeños */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .content {
+        margin-left: 0;
+      }
+
+      .menu-button {
+        display: block;
+      }
+    }
+
+    /* Estilos personalizados para las tarjetas */
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #6B7280;
+      font-size: 0.875rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #10B981;
+      color: white;
+      border-radius: 8px;
+      text-align: center;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .button:hover {
+      background-color: #059669;
+    }
+
+    .menu-button {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1100;
+      background-color: #10B981;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+
+    .menu-button:hover {
+      background-color: #059669;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Botón para mostrar el menú en móviles -->
+  <button class="menu-button" onclick="toggleMenu()">
+    <i class="fas fa-bars"></i> Menú
+  </button>
+
+  <!-- Barra de navegación lateral -->
+  <div class="sidebar">
+    <h2>Menú</h2>
+    <a href="dashboard.html" class="active">
+      <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    <a href="mis-pacientes.html">
+      <i class="fas fa-user-injured"></i> Mis Pacientes
+    </a>
+    <a href="proximas-citas.html">
+      <i class="fas fa-calendar-alt"></i> Próximas Citas
+    </a>
+    <a href="mi-desempeno.html">
+      <i class="fas fa-chart-line"></i> Mi Desempeño
+    </a>
+    <a href="historial-clinico.html">
+      <i class="fas fa-file-medical"></i> Historial Clínico
+    </a>
+    <a href="gestion-pacientes.html">
+      <i class="fas fa-users-cog"></i> Gestión de Pacientes
+    </a>
+    <a href="tareas-asignadas.html">
+      <i class="fas fa-tasks"></i> Tareas Asignadas
+    </a>
+    <a href="recursos-aprendizaje.html">
+      <i class="fas fa-book"></i> Recursos de Aprendizaje
+    </a>
+    <a href="consultas-profesores.html">
+      <i class="fas fa-comments"></i> Consultas a Profesores
+    </a>
+    <a href="documentos-informes.html">
+      <i class="fas fa-file-alt"></i> Documentos e Informes
+    </a>
+    <a href="evaluacion-seguimiento.html">
+      <i class="fas fa-check-circle"></i> Evaluación y Seguimiento
+    </a>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">Dashboard de Estudiante</h1>
+
+    <!-- Tarjetas interactivas -->
+    <div class="grid">
+      <!-- Mis Pacientes -->
+      <div class="card">
+        <h3>Mis Pacientes</h3>
+        <p>Gestión de los pacientes asignados y seguimiento de sus tratamientos.</p>
+        <a href="mis-pacientes.html" class="button">Ver Pacientes</a>
+      </div>
+
+      <!-- Próximas Citas -->
+      <div class="card">
+        <h3>Próximas Citas</h3>
+        <p>Consulta y gestión de tus citas programadas con los pacientes.</p>
+        <a href="proximas-citas.html" class="button">Ver Citas</a>
+      </div>
+
+      <!-- Mi Desempeño -->
+      <div class="card">
+        <h3>Mi Desempeño</h3>
+        <p>Consulta tus evaluaciones y desempeño en diferentes competencias.</p>
+        <a href="mi-desempeno.html" class="button">Ver Desempeño</a>
+      </div>
+
+      <!-- Historial Clínico -->
+      <div class="card">
+        <h3>Historial Clínico</h3>
+        <p>Accede a los historiales clínicos de tus pacientes.</p>
+        <a href="historial-clinico.html" class="button">Ver Historial</a>
+      </div>
+
+      <!-- Gestión de Pacientes -->
+      <div class="card">
+        <h3>Gestión de Pacientes</h3>
+        <p>Agrega nuevos pacientes o actualiza su información médica.</p>
+        <a href="gestion-pacientes.html" class="button">Gestionar Pacientes</a>
+      </div>
+
+      <!-- Tareas Asignadas -->
+      <div class="card">
+        <h3>Tareas Asignadas</h3>
+        <p>Revisa y entrega las tareas asignadas por tus profesores.</p>
+        <a href="tareas-asignadas.html" class="button">Ver Tareas</a>
+      </div>
+
+      <!-- Recursos de Aprendizaje -->
+      <div class="card">
+        <h3>Recursos de Aprendizaje</h3>
+        <p>Accede a materiales y guías para mejorar tus conocimientos.</p>
+        <a href="recursos-aprendizaje.html" class="button">Ver Recursos</a>
+      </div>
+
+      <!-- Consultas a Profesores -->
+      <div class="card">
+        <h3>Consultas a Profesores</h3>
+        <p>Envía tus preguntas y consultas a los profesores.</p>
+        <a href="consultas-profesores.html" class="button">Ver Consultas</a>
+      </div>
+
+      <!-- Documentos e Informes -->
+      <div class="card">
+        <h3>Documentos e Informes</h3>
+        <p>Sube, descarga y gestiona documentos clínicos e informes.</p>
+        <a href="documentos-informes.html" class="button">Ver Documentos</a>
+      </div>
+
+      <!-- Evaluación y Seguimiento -->
+      <div class="card">
+        <h3>Evaluación y Seguimiento</h3>
+        <p>Consulta las evaluaciones y retroalimentación de tus competencias.</p>
+        <a href="evaluacion-seguimiento.html" class="button">Ver Evaluaciones</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Función para alternar el menú en dispositivos móviles
+    function toggleMenu() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>
