@@ -7,60 +7,130 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <style>
-    /* Estilos personalizados para la barra lateral */
+    /* Barra lateral */
     .sidebar {
       height: 100vh;
       width: 250px;
       position: fixed;
       top: 0;
       left: 0;
-      background-color: #2D3748;
-      padding-top: 20px;
+      background-color: #1f2937; /* Azul oscuro elegante */
+      padding-top: 30px;
       transition: transform 0.3s ease-in-out;
       z-index: 1000;
     }
 
     .sidebar h2 {
-      color: white;
+      color: #ffffff;
       font-size: 1.75rem;
       text-align: center;
       margin-bottom: 20px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .sidebar a {
-      padding: 12px 20px;
+      padding: 15px 20px;
       text-decoration: none;
       font-size: 18px;
-      color: white;
+      color: #9ca3af; /* Color gris claro para los enlaces */
       display: flex;
       align-items: center;
-      transition: 0.3s;
+      transition: background-color 0.3s, padding-left 0.3s;
     }
 
     .sidebar a i {
-      margin-right: 10px;
+      margin-right: 12px;
     }
 
     .sidebar a:hover {
-      background-color: #4A5568;
-      border-left: 4px solid #10B981;
-      padding-left: 16px;
+      background-color: #3b82f6; /* Hover en azul claro */
+      color: white;
+      padding-left: 25px;
+      border-left: 4px solid #60a5fa; /* Línea indicadora */
     }
 
     .sidebar a.active {
-      background-color: #1A202C;
-      border-left: 4px solid #10B981;
+      background-color: #2563eb; /* Color para la opción activa */
+      color: #ffffff;
+      padding-left: 25px;
+      border-left: 4px solid #60a5fa;
     }
 
     .content {
       margin-left: 250px;
-      padding: 40px;
-      background-color: #F3F4F6;
+      padding: 50px;
+      background-color: #f9fafb; /* Fondo suave */
       min-height: 100vh;
     }
 
-    /* Ocultar la barra lateral en dispositivos pequeños */
+    /* Tarjetas */
+    .card {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2937; /* Títulos oscuros */
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #6b7280; /* Texto gris tenue */
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Acomoda tarjetas dinámicamente */
+    }
+
+    /* Botones */
+    .button {
+      display: inline-block;
+      padding: 12px 20px;
+      background-color: #3b82f6; /* Azul vibrante */
+      color: white;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #2563eb; /* Hover más intenso */
+    }
+
+    /* Menú para móviles */
+    .menu-button {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1100;
+      background-color: #3b82f6;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu-button:hover {
+      background-color: #2563eb;
+    }
+
+    /* Ajustes para móviles */
     @media (max-width: 768px) {
       .sidebar {
         transform: translateX(-100%);
@@ -78,69 +148,6 @@
         display: block;
       }
     }
-
-    /* Estilos personalizados para las tarjetas */
-    .card {
-      background-color: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    .card h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #374151;
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      color: #6B7280;
-      font-size: 0.875rem;
-    }
-
-    .grid {
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #10B981;
-      color: white;
-      border-radius: 8px;
-      text-align: center;
-      transition: background-color 0.3s ease;
-      margin-top: 10px;
-    }
-
-    .button:hover {
-      background-color: #059669;
-    }
-
-    .menu-button {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1100;
-      background-color: #10B981;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 5px;
-    }
-
-    .menu-button:hover {
-      background-color: #059669;
-    }
   </style>
 </head>
 <body class="bg-gray-100">
@@ -152,7 +159,7 @@
 
   <!-- Barra de navegación lateral -->
   <div class="sidebar">
-    <h2>Menú</h2>
+    <h2>FACULTAD DE ODONTOLOGIA</h2>
     <a href="dashboard.html" class="active">
       <i class="fas fa-tachometer-alt"></i> Dashboard
     </a>
