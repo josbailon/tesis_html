@@ -5,73 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Evaluación y Seguimiento</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <style>
-    /* Estilos personalizados */
+    /* Barra lateral */
     .sidebar {
       height: 100vh;
       width: 250px;
       position: fixed;
       top: 0;
       left: 0;
-      background-color: #4B5563;
-      padding-top: 20px;
+      background-color: #1f2937; /* Azul oscuro elegante */
+      padding-top: 30px;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    .sidebar h2 {
+      color: white;
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 700;
     }
 
     .sidebar a {
-      padding: 12px 20px;
+      padding: 15px 20px;
       text-decoration: none;
       font-size: 18px;
-      color: white;
-      display: block;
-      transition: 0.3s;
+      color: #9ca3af; /* Color gris claro para los enlaces */
+      display: flex;
+      align-items: center;
+      transition: background-color 0.3s, padding-left 0.3s;
+    }
+
+    .sidebar a i {
+      margin-right: 12px;
     }
 
     .sidebar a:hover {
-      background-color: #374151;
-      border-left: 4px solid #10B981;
-      padding-left: 16px;
+      background-color: #3b82f6; /* Hover en azul claro */
+      color: white;
+      padding-left: 25px;
+      border-left: 4px solid #60a5fa; /* Línea indicadora */
+    }
+
+    .sidebar a.active {
+      background-color: #2563eb; /* Color para la opción activa */
+      color: white;
+      padding-left: 25px;
+      border-left: 4px solid #60a5fa;
     }
 
     .content {
       margin-left: 250px;
-      padding: 40px;
-      background-color: #F3F4F6;
+      padding: 50px;
+      background-color: #f9fafb; /* Fondo suave */
       min-height: 100vh;
     }
 
-    .evaluation-container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-
-    .evaluation-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #374151;
-      margin-bottom: 16px;
-    }
-
-    .feedback-container {
-      background-color: #F9FAFB;
-      padding: 12px;
-      border-left: 4px solid #10B981;
-      border-radius: 8px;
-      margin-bottom: 16px;
-    }
-
-    .feedback-title {
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .feedback-text {
-      font-size: 0.875rem;
-      color: #4B5563;
-    }
-
+    /* Botones y badges */
     .badge-excelente {
       background-color: #10B981;
       color: white;
@@ -108,6 +100,41 @@
       font-weight: bold;
     }
 
+    /* Evaluación y feedback */
+    .evaluation-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .evaluation-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 16px;
+    }
+
+    .feedback-container {
+      background-color: #F9FAFB;
+      padding: 12px;
+      border-left: 4px solid #10B981;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .feedback-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feedback-text {
+      font-size: 0.875rem;
+      color: #4B5563;
+    }
+
+    /* Tabla de evaluaciones */
     .table-container {
       margin-top: 20px;
       background-color: white;
@@ -138,92 +165,117 @@
 </head>
 <body class="bg-gray-100">
 
-  <!-- Barra de navegación lateral -->
-  <div class="sidebar">
-    <h2 class="text-white text-2xl text-center mb-6 font-semibold">Menú</h2>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="mis-pacientes.html">Mis Pacientes</a>
-    <a href="proximas-citas.html">Próximas Citas</a>
-    <a href="mi-desempeno.html">Mi Desempeño</a>
-    <a href="historial-clinico.html">Historial Clínico</a>
-    <a href="gestion-pacientes.html">Gestión de Pacientes</a>
-    <a href="tareas-asignadas.html">Tareas Asignadas</a>
-    <a href="recursos-aprendizaje.html">Recursos de Aprendizaje</a>
-    <a href="consultas-profesores.html">Consultas a Profesores</a>
-    <a href="documentos-informes.html">Documentos e Informes</a>
-    <a href="evaluacion-seguimiento.html" class="bg-gray-700">Evaluación y Seguimiento</a>
-  </div>
+<!-- Barra de navegación lateral -->
+<div class="sidebar">
+  <h2 class="text-white text-2xl text-center mb-6 font-semibold">FACULTAD DE ODONTOLOGIA</h2>
+  <a href="dashboard.html">
+    <i class="fas fa-tachometer-alt"></i> Dashboard
+  </a>
+  <a href="mis-pacientes.html">
+    <i class="fas fa-user-injured"></i> Mis Pacientes
+  </a>
+  <a href="proximas-citas.html">
+    <i class="fas fa-calendar-alt"></i> Próximas Citas
+  </a>
+  <a href="mi-desempeno.html">
+    <i class="fas fa-chart-line"></i> Mi Desempeño
+  </a>
+  <a href="historial-clinico.html">
+    <i class="fas fa-file-medical"></i> Historial Clínico
+  </a>
+  <a href="gestion-pacientes.html">
+    <i class="fas fa-users-cog"></i> Gestión de Pacientes
+  </a>
+  <a href="tareas-asignadas.html">
+    <i class="fas fa-tasks"></i> Tareas Asignadas
+  </a>
+  <a href="recursos-aprendizaje.html">
+    <i class="fas fa-book"></i> Recursos de Aprendizaje
+  </a>
+  <a href="consultas-profesores.html">
+    <i class="fas fa-comments"></i> Consultas a Profesores
+  </a>
+  <a href="documentos-informes.html">
+    <i class="fas fa-file-alt"></i> Documentos e Informes
+  </a>
+  <a href="evaluacion-seguimiento.html" class="active">
+    <i class="fas fa-check-circle"></i> Evaluación y Seguimiento
+  </a>
+  <a href="citas-tratamientos.html">
+    <i class="fas fa-stethoscope"></i> Citas y Tratamientos
+  </a>
+</div>
 
-  <!-- Contenido principal -->
-  <div class="content">
-    <h1 class="text-4xl font-bold text-gray-900 mb-8">Evaluación y Seguimiento</h1>
+<!-- Contenido principal -->
+<div class="content">
+  <h1 class="text-4xl font-bold text-gray-900 mb-8">Evaluación y Seguimiento</h1>
 
-    <!-- Evaluación reciente -->
-    <div class="evaluation-container">
-      <h2 class="evaluation-title">Evaluación Reciente</h2>
-      <div class="feedback-container">
-        <h3 class="feedback-title">Competencia en Diagnóstico</h3>
-        <p class="feedback-text">¡Excelente trabajo en la evaluación de diagnóstico! Has demostrado un gran dominio de las técnicas.</p>
-        <span class="badge-excelente">Excelente</span>
-      </div>
-      <div class="feedback-container">
-        <h3 class="feedback-title">Competencia en Tratamiento</h3>
-        <p class="feedback-text">Tu tratamiento ha sido bueno, pero hay algunas áreas donde puedes mejorar, especialmente en la planificación previa.</p>
-        <span class="badge-bueno">Bueno</span>
-      </div>
-      <div class="feedback-container">
-        <h3 class="feedback-title">Competencia en Comunicación</h3>
-        <p class="feedback-text">La comunicación con los pacientes es clara, pero debes enfocarte más en escuchar sus inquietudes.</p>
-        <span class="badge-regular">Regular</span>
-      </div>
-      <div class="feedback-container">
-        <h3 class="feedback-title">Competencia Técnica</h3>
-        <p class="feedback-text">Es necesario mejorar tus habilidades técnicas en procedimientos complejos. Recomendamos mayor práctica en este aspecto.</p>
-        <span class="badge-mejorar">Necesita Mejorar</span>
-      </div>
+  <!-- Evaluación reciente -->
+  <div class="evaluation-container">
+    <h2 class="evaluation-title">Evaluación Reciente</h2>
+    <div class="feedback-container">
+      <h3 class="feedback-title">Competencia en Diagnóstico</h3>
+      <p class="feedback-text">¡Excelente trabajo en la evaluación de diagnóstico! Has demostrado un gran dominio de las técnicas.</p>
+      <span class="badge-excelente">Excelente</span>
     </div>
-
-    <!-- Tabla de evaluaciones anteriores -->
-    <div class="table-container">
-      <h2 class="text-2xl font-bold mb-4">Historial de Evaluaciones</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Competencia Evaluada</th>
-            <th>Calificación</th>
-            <th>Retroalimentación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>15/05/2023</td>
-            <td>Diagnóstico</td>
-            <td><span class="badge-excelente">Excelente</span></td>
-            <td>Dominio perfecto en técnicas de diagnóstico.</td>
-          </tr>
-          <tr>
-            <td>10/05/2023</td>
-            <td>Tratamiento</td>
-            <td><span class="badge-bueno">Bueno</span></td>
-            <td>Planificación y ejecución de tratamientos bien lograda.</td>
-          </tr>
-          <tr>
-            <td>05/05/2023</td>
-            <td>Comunicación</td>
-            <td><span class="badge-regular">Regular</span></td>
-            <td>Necesitas prestar más atención a las preocupaciones de los pacientes.</td>
-          </tr>
-          <tr>
-            <td>02/05/2023</td>
-            <td>Técnica</td>
-            <td><span class="badge-mejorar">Necesita Mejorar</span></td>
-            <td>Es necesario mejorar en procedimientos complejos.</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="feedback-container">
+      <h3 class="feedback-title">Competencia en Tratamiento</h3>
+      <p class="feedback-text">Tu tratamiento ha sido bueno, pero hay algunas áreas donde puedes mejorar, especialmente en la planificación previa.</p>
+      <span class="badge-bueno">Bueno</span>
+    </div>
+    <div class="feedback-container">
+      <h3 class="feedback-title">Competencia en Comunicación</h3>
+      <p class="feedback-text">La comunicación con los pacientes es clara, pero debes enfocarte más en escuchar sus inquietudes.</p>
+      <span class="badge-regular">Regular</span>
+    </div>
+    <div class="feedback-container">
+      <h3 class="feedback-title">Competencia Técnica</h3>
+      <p class="feedback-text">Es necesario mejorar tus habilidades técnicas en procedimientos complejos. Recomendamos mayor práctica en este aspecto.</p>
+      <span class="badge-mejorar">Necesita Mejorar</span>
     </div>
   </div>
+
+  <!-- Tabla de evaluaciones anteriores -->
+  <div class="table-container">
+    <h2 class="text-2xl font-bold mb-4">Historial de Evaluaciones</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Competencia Evaluada</th>
+          <th>Calificación</th>
+          <th>Retroalimentación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>15/05/2023</td>
+          <td>Diagnóstico</td>
+          <td><span class="badge-excelente">Excelente</span></td>
+          <td>Dominio perfecto en técnicas de diagnóstico.</td>
+        </tr>
+        <tr>
+          <td>10/05/2023</td>
+          <td>Tratamiento</td>
+          <td><span class="badge-bueno">Bueno</span></td>
+          <td>Planificación y ejecución de tratamientos bien lograda.</td>
+        </tr>
+        <tr>
+          <td>05/05/2023</td>
+          <td>Comunicación</td>
+          <td><span class="badge-regular">Regular</span></td>
+          <td>Necesitas prestar más atención a las preocupaciones de los pacientes.</td>
+        </tr>
+        <tr>
+          <td>02/05/2023</td>
+          <td>Técnica</td>
+          <td><span class="badge-mejorar">Necesita Mejorar</span></td>
+          <td>Es necesario mejorar en procedimientos complejos.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 </body>
 </html>
