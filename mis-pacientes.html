@@ -1,209 +1,423 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mis Pacientes</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <style>
-    /* Barra lateral */
-    .sidebar {
-      height: 100vh;
-      width: 250px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: #1f2937; /* Azul oscuro elegante */
-      padding-top: 30px;
-      transition: transform 0.3s ease-in-out;
-      z-index: 1000;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pacientes Odontológicos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        /* General */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-    .sidebar h2 {
-      color: white;
-      font-size: 1.75rem;
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
+        /* Barra lateral */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: linear-gradient(to bottom, #1e3a8a, #000000);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
 
-    .sidebar a {
-      padding: 15px 20px;
-      text-decoration: none;
-      font-size: 18px;
-      color: #9ca3af; /* Color gris claro para los enlaces */
-      display: flex;
-      align-items: center;
-      transition: background-color 0.3s, padding-left 0.3s;
-    }
+        .sidebar h2 {
+            text-align: center;
+            padding: 20px;
+            background-color: #1e3a8a;
+            margin: 0;
+            font-size: 20px;
+        }
 
-    .sidebar a i {
-      margin-right: 12px;
-    }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
 
-    .sidebar a:hover {
-      background-color: #3b82f6; /* Hover en azul claro */
-      color: white;
-      padding-left: 25px;
-      border-left: 4px solid #60a5fa; /* Línea indicadora */
-    }
+        .sidebar ul li {
+            margin: 0;
+        }
 
-    .sidebar a.active {
-      background-color: #2563eb; /* Color para la opción activa */
-      color: white;
-      padding-left: 25px;
-      border-left: 4px solid #60a5fa;
-    }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s;
+        }
 
-    .content {
-      margin-left: 250px;
-      padding: 50px;
-      background-color: #f9fafb; /* Fondo suave */
-      min-height: 100vh;
-    }
+        .sidebar ul li a:hover {
+            background-color: #1e3a8a;
+        }
 
-    /* Tabla estilizada */
-    .table-header {
-      background-color: #10B981;
-      color: white;
-    }
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
 
-    .table-row:hover {
-      background-color: #F1F5F9;
-    }
+        /* Contenido principal */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex: 1;
+            transition: margin-left 0.3s;
+        }
 
-    .badge {
-      padding: 5px 10px;
-      border-radius: 12px;
-      font-size: 0.875rem;
-      font-weight: bold;
-      display: inline-block;
-    }
+        .content header h1 {
+            margin-bottom: 20px;
+            color: #1e3a8a;
+        }
 
-    .badge-en-progreso {
-      background-color: #34D399;
-      color: white;
-    }
+        .content header p {
+            font-size: 1.1em;
+        }
 
-    .badge-pendiente {
-      background-color: #FBBF24;
-      color: white;
-    }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
 
-    .badge-completado {
-      background-color: #60A5FA;
-      color: white;
-    }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
 
-    .button {
-      background-color: #4F46E5;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-    }
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+        }
 
-    .button:hover {
-      background-color: #4338CA;
-    }
-  </style>
+        .modal-content button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1em;
+        }
+
+        .modal-content button:hover {
+            background-color: #16a34a;
+        }
+
+        /* Botón de cerrar modal */
+        .close-modal {
+            background: #ff4c4c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        .close-modal:hover {
+            background-color: #e60000;
+        }
+
+        /* Tabla de pacientes */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1e3a8a;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        td button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #ff4c4c;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        td button:hover {
+            background-color: #e60000;
+        }
+
+        /* Estadísticas */
+        .statistics {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: auto;
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
 
-<!-- Barra de navegación lateral -->
-<div class="sidebar">
-  <h2 class="text-white text-2xl text-center mb-6 font-semibold">FACULTAD DE ODONTOLOGIA</h2>
-  <a href="dashboard.html">
-    <i class="fas fa-tachometer-alt"></i> Dashboard
-  </a>
-  <a href="mis-pacientes.html" class="active">
-    <i class="fas fa-user-injured"></i> Mis Pacientes
-  </a>
-  <a href="proximas-citas.html">
-    <i class="fas fa-calendar-alt"></i> Próximas Citas
-  </a>
-  <a href="mi-desempeno.html">
-    <i class="fas fa-chart-line"></i> Mi Desempeño
-  </a>
-  <a href="historial-clinico.html">
-    <i class="fas fa-file-medical"></i> Historial Clínico
-  </a>
-  <a href="gestion-pacientes.html">
-    <i class="fas fa-users-cog"></i> Gestión de Pacientes
-  </a>
-  <a href="tareas-asignadas.html">
-    <i class="fas fa-tasks"></i> Tareas Asignadas
-  </a>
-  <a href="recursos-aprendizaje.html">
-    <i class="fas fa-book"></i> Recursos de Aprendizaje
-  </a>
-  <a href="consultas-profesores.html">
-    <i class="fas fa-comments"></i> Consultas a Profesores
-  </a>
-  <a href="documentos-informes.html">
-    <i class="fas fa-file-alt"></i> Documentos e Informes
-  </a>
-  <a href="evaluacion-seguimiento.html">
-    <i class="fas fa-check-circle"></i> Evaluación y Seguimiento
-  </a>
-  <a href="citas-tratamientos.html">
-    <i class="fas fa-stethoscope"></i> Citas y Tratamientos
-  </a>
-</div>
+<body>
 
-<!-- Contenido principal -->
-<div class="content">
-  <h1 class="text-4xl font-bold text-gray-900 mb-8">Mis Pacientes</h1>
+    <!-- Botón de menú -->
+    <button class="menu-button" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
 
-  <!-- Tabla de Pacientes -->
-  <div class="bg-white shadow-lg rounded-lg p-6">
-    <table class="min-w-full table-auto border-collapse">
-      <thead class="table-header">
-        <tr>
-          <th class="px-6 py-4 text-left">Nombre</th>
-          <th class="px-6 py-4 text-left">Tratamiento</th>
-          <th class="px-6 py-4 text-left">Estado</th>
-          <th class="px-6 py-4 text-left">Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="bg-white">
-        <tr class="table-row">
-          <td class="border px-6 py-4">María López</td>
-          <td class="border px-6 py-4">Ortodoncia</td>
-          <td class="border px-6 py-4">
-            <span class="badge badge-en-progreso">En progreso</span>
-          </td>
-          <td class="border px-6 py-4">
-            <button class="button">Ver Detalles</button>
-          </td>
-        </tr>
-        <tr class="table-row">
-          <td class="border px-6 py-4">Juan Pérez</td>
-          <td class="border px-6 py-4">Endodoncia</td>
-          <td class="border px-6 py-4">
-            <span class="badge badge-pendiente">Pendiente</span>
-          </td>
-          <td class="border px-6 py-4">
-            <button class="button">Ver Detalles</button>
-          </td>
-        </tr>
-        <tr class="table-row">
-          <td class="border px-6 py-4">Ana Rodríguez</td>
-          <td class="border px-6 py-4">Limpieza dental</td>
-          <td class="border px-6 py-4">
-            <span class="badge badge-completado">Completado</span>
-          </td>
-          <td class="border px-6 py-4">
-            <button class="button">Ver Detalles</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+    <!-- Barra lateral -->
+    <aside class="sidebar" id="sidebar">
+        <h2>Panel Odontológico</h2>
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="citas-tratamientos.html"><i class="fas fa-tooth"></i> Tratamientos</a></li>
+            <li><a href="proximas-citas.html"><i class="fas fa-calendar-alt"></i> Citas</a></li>
+            <li><a href="historial-clinico.html"><i class="fas fa-file-medical"></i> Historial Clínico</a></li>
+            <li><a href="mis-pacientes.html"><i class="fas fa-user"></i> Pacientes</a></li>
+        </ul>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="content">
+        <header>
+            <h1>Gestión de Pacientes</h1>
+            <p>Administra a los pacientes que han sido atendidos en la clínica odontológica.</p>
+        </header>
+
+        <!-- Estadísticas -->
+        <div class="statistics">
+            <h2>Estadísticas</h2>
+            <p>Total de pacientes: <span id="total-patients">0</span></p>
+            <p>Edad promedio de los pacientes: <span id="average-age">N/A</span></p>
+        </div>
+
+        <!-- Lista de pacientes -->
+        <h2>Lista de Pacientes</h2>
+        <table id="patient-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th>Teléfono</th>
+                    <th>Última Visita</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se agregan los pacientes -->
+            </tbody>
+        </table>
+
+        <!-- Botón para abrir modal -->
+        <button id="open-modal" style="padding: 12px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
+            Agregar Paciente
+        </button>
+    </main>
+
+    <!-- Modal para agregar paciente -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Agregar Paciente</h2>
+            <form id="patient-form">
+                <input type="text" id="name" placeholder="Nombre" required>
+                <input type="number" id="age" placeholder="Edad" required>
+                <input type="tel" id="phone" placeholder="Teléfono" required>
+                <input type="date" id="last-visit" placeholder="Última Visita" required>
+                <button type="submit">Guardar Paciente</button>
+                <button type="button" class="close-modal" id="close-modal">Cerrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Clínica Odontológica</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
+    <script>
+        // Acceder a los elementos
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menu-toggle');
+        const form = document.getElementById('patient-form');
+        const tableBody = document.querySelector('#patient-table tbody');
+        const openModalButton = document.getElementById('open-modal');
+        const modal = document.getElementById('modal');
+        const closeModalButton = document.getElementById('close-modal');
+
+        let patients = []; // Array para almacenar pacientes
+
+        // Toggle sidebar visibility
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        // Abrir modal
+        openModalButton.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        // Cerrar modal
+        closeModalButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Agregar paciente
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const phone = document.getElementById('phone').value;
+            const lastVisit = document.getElementById('last-visit').value;
+
+            const patient = {
+                name,
+                age: parseInt(age),
+                phone,
+                lastVisit
+            };
+
+            patients.push(patient); // Agregar paciente al array
+
+            // Mostrar paciente en la tabla
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${name}</td>
+                <td>${age}</td>
+                <td>${phone}</td>
+                <td>${lastVisit}</td>
+                <td><button class="delete-btn">Eliminar</button></td>
+            `;
+            tableBody.appendChild(row);
+
+            // Actualizar estadísticas
+            updateStatistics();
+
+            // Limpiar formulario
+            form.reset();
+
+            // Cerrar modal
+            modal.style.display = 'none';
+
+            // Notificación de éxito
+            Swal.fire({
+                icon: 'success',
+                title: 'Paciente agregado',
+                text: 'El paciente ha sido agregado exitosamente.',
+            });
+        });
+
+        // Eliminar paciente
+        tableBody.addEventListener('click', function (e) {
+            if (e.target.classList.contains('delete-btn')) {
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "No podrás revertir esta acción.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.target.closest('tr').remove();
+                        patients = patients.filter(patient => patient.name !== e.target.closest('tr').cells[0].textContent);
+                        updateStatistics();
+                        Swal.fire('Eliminado', 'El paciente ha sido eliminado.', 'success');
+                    }
+                });
+            }
+        });
+
+        // Actualizar estadísticas
+        function updateStatistics() {
+            const totalPatients = patients.length;
+            document.getElementById('total-patients').textContent = totalPatients;
+
+            if (totalPatients > 0) {
+                const averageAge = patients.reduce((sum, patient) => sum + patient.age, 0) / totalPatients;
+                document.getElementById('average-age').textContent = averageAge.toFixed(2);
+            } else {
+                document.getElementById('average-age').textContent = 'N/A';
+            }
+        }
+    </script>
 
 </body>
+
 </html>

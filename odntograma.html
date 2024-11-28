@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odontograma Interactivo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #1e3a8a;
+            position: fixed;
+            color: white;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #374151;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+
+        /* Contenedor del odontograma */
+        .odontogram-container {
+            margin-left: 270px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .odontogram h1 {
+            margin-bottom: 20px;
+        }
+
+        /* Estilos del odontograma */
+        .odontogram {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+
+        .tooth {
+            width: 50px;
+            height: 50px;
+            margin: 15px;
+            border-radius: 10px;
+            background-color: #d1d5db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tooth.selected {
+            background-color: #34d399;
+        }
+
+        .tooth i {
+            color: white;
+        }
+
+        .tooth:hover {
+            background-color: #6b7280;
+        }
+
+        .tooth.selected:hover {
+            background-color: #10b981;
+        }
+
+        .tooth .number {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background-color: #000;
+            color: white;
+            padding: 3px;
+            border-radius: 50%;
+            font-size: 12px;
+        }
+
+        /* Contenedor de acciones */
+        .actions {
+            margin-top: 20px;
+        }
+
+        .actions button {
+            padding: 10px 20px;
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .actions button:hover {
+            background-color: #374151;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .odontogram {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Estilo de la descripción del tratamiento */
+        .treatment-info {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            display: none;
+        }
+
+        .treatment-info h3 {
+            margin-top: 0;
+        }
+
+        .treatment-info ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        /* Formularios para detalles del tratamiento */
+        .treatment-details {
+            margin-top: 10px;
+        }
+
+        .treatment-details input,
+        .treatment-details select,
+        .treatment-details textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+        <h2>Panel Odontológico</h2>
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#"><i class="fas fa-tooth"></i> Odontograma</a></li>
+            <li><a href="#"><i class="fas fa-calendar-alt"></i> Citas</a></li>
+            <li><a href="#"><i class="fas fa-file-medical"></i> Historial Clínico</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Pacientes</a></li>
+        </ul>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="odontogram-container">
+        <h1>Odontograma</h1>
+        <p>Seleccione los dientes para registrar tratamientos o diagnósticos.</p>
+
+        <!-- Odontograma -->
+        <div class="odontogram">
+            <!-- Dientes superiores -->
+            <div class="tooth" id="tooth-11" onclick="selectTooth('11')">
+                <i class="fas fa-tooth"></i><span class="number">11</span>
+            </div>
+            <div class="tooth" id="tooth-12" onclick="selectTooth('12')">
+                <i class="fas fa-tooth"></i><span class="number">12</span>
+            </div>
+            <div class="tooth" id="tooth-13" onclick="selectTooth('13')">
+                <i class="fas fa-tooth"></i><span class="number">13</span>
+            </div>
+            <div class="tooth" id="tooth-14" onclick="selectTooth('14')">
+                <i class="fas fa-tooth"></i><span class="number">14</span>
+            </div>
+            <div class="tooth" id="tooth-15" onclick="selectTooth('15')">
+                <i class="fas fa-tooth"></i><span class="number">15</span>
+            </div>
+            <div class="tooth" id="tooth-16" onclick="selectTooth('16')">
+                <i class="fas fa-tooth"></i><span class="number">16</span>
+            </div>
+
+            <!-- Dientes inferiores -->
+            <div class="tooth" id="tooth-31" onclick="selectTooth('31')">
+                <i class="fas fa-tooth"></i><span class="number">31</span>
+            </div>
+            <div class="tooth" id="tooth-32" onclick="selectTooth('32')">
+                <i class="fas fa-tooth"></i><span class="number">32</span>
+            </div>
+            <div class="tooth" id="tooth-33" onclick="selectTooth('33')">
+                <i class="fas fa-tooth"></i><span class="number">33</span>
+            </div>
+            <div class="tooth" id="tooth-34" onclick="selectTooth('34')">
+                <i class="fas fa-tooth"></i><span class="number">34</span>
+            </div>
+            <div class="tooth" id="tooth-35" onclick="selectTooth('35')">
+                <i class="fas fa-tooth"></i><span class="number">35</span>
+            </div>
+            <div class="tooth" id="tooth-36" onclick="selectTooth('36')">
+                <i class="fas fa-tooth"></i><span class="number">36</span>
+            </div>
+        </div>
+
+        <!-- Botón para mostrar el tratamiento -->
+        <div class="actions">
+            <button onclick="showTreatmentInfo()">Registrar Tratamiento</button>
+        </div>
+
+        <!-- Información del tratamiento -->
+        <div class="treatment-info" id="treatment-info">
+            <h3>Tratamiento Registrado</h3>
+            <ul id="treatment-list">
+                <!-- Aquí se listarán los dientes seleccionados y el tratamiento asignado -->
+            </ul>
+
+            <!-- Detalles del tratamiento -->
+            <div class="treatment-details">
+                <label for="treatment-type">Tipo de Tratamiento:</label>
+                <select id="treatment-type">
+                    <option value="empaste">Empaste</option>
+                    <option value="extraccion">Extracción</option>
+                    <option value="endodoncia">Endodoncia</option>
+                    <option value="limpieza">Limpieza</option>
+                </select>
+
+                <label for="treatment-date">Fecha del Tratamiento:</label>
+                <input type="date" id="treatment-date" />
+
+                <label for="treatment-notes">Notas adicionales:</label>
+                <textarea id="treatment-notes" rows="4"></textarea>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Función para seleccionar un diente
+        function selectTooth(toothNumber) {
+            const tooth = document.getElementById('tooth-' + toothNumber);
+            tooth.classList.toggle('selected');
+        }
+
+        // Función para mostrar información del tratamiento
+        function showTreatmentInfo() {
+            const selectedTeeth = document.querySelectorAll('.tooth.selected');
+            const treatmentInfo = document.getElementById('treatment-info');
+            const treatmentList = document.getElementById('treatment-list');
+
+            if (selectedTeeth.length > 0) {
+                treatmentList.innerHTML = ''; // Limpiar lista existente
+                selectedTeeth.forEach(tooth => {
+                    const toothNumber = tooth.querySelector('.number').textContent;
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Diente ${toothNumber} seleccionado para tratamiento.`;
+                    treatmentList.appendChild(listItem);
+                });
+                treatmentInfo.style.display = 'block';
+            } else {
+                alert('No se ha seleccionado ningún diente.');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
