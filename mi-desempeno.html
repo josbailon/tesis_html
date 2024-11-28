@@ -1,191 +1,372 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Desempeño</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    /* Barra lateral */
-    .sidebar {
-      height: 100vh;
-      width: 250px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: #1f2937; /* Azul oscuro elegante */
-      padding-top: 30px;
-      transition: transform 0.3s ease-in-out;
-      z-index: 1000;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Establecer Disponibilidad</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* General */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-    .sidebar h2 {
-      color: white;
-      font-size: 1.75rem;
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
+        /* Barra lateral */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: linear-gradient(to bottom, #1e3a8a, #000000);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
 
-    .sidebar a {
-      padding: 15px 20px;
-      text-decoration: none;
-      font-size: 18px;
-      color: #9ca3af; /* Color gris claro para los enlaces */
-      display: flex;
-      align-items: center;
-      transition: background-color 0.3s, padding-left 0.3s;
-    }
+        .sidebar h2 {
+            text-align: center;
+            padding: 20px;
+            background-color: #1e3a8a;
+            margin: 0;
+            font-size: 20px;
+        }
 
-    .sidebar a i {
-      margin-right: 12px;
-    }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
 
-    .sidebar a:hover {
-      background-color: #3b82f6; /* Hover en azul claro */
-      color: white;
-      padding-left: 25px;
-      border-left: 4px solid #60a5fa; /* Línea indicadora */
-    }
+        .sidebar ul li {
+            margin: 0;
+        }
 
-    .sidebar a.active {
-      background-color: #2563eb; /* Color para la opción activa */
-      color: white;
-      padding-left: 25px;
-      border-left: 4px solid #60a5fa;
-    }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s;
+        }
 
-    .content {
-      margin-left: 250px;
-      padding: 50px;
-      background-color: #f9fafb; /* Fondo suave */
-      min-height: 100vh;
-    }
+        .sidebar ul li a:hover {
+            background-color: #1e3a8a;
+        }
 
-    /* Gráfico */
-    .chart-container {
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
 
-    .chart-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #374151;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-  </style>
+        /* Botón de menú */
+        .menu-button {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .menu-button i {
+            font-size: 18px;
+        }
+
+        /* Contenido principal */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex: 1;
+            transition: margin-left 0.3s;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-container {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        /* Tarjetas */
+        .grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+            color: #1e3a8a;
+        }
+
+        .calendar-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-header {
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            background-color: #1e3a8a;
+            color: white;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .calendar-day:hover {
+            background-color: #1e3a8a;
+            color: white;
+        }
+
+        .calendar-day.selected {
+            background-color: #000000;
+            color: white;
+        }
+
+        .availability-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .availability-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        /* Botón Guardar */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #16a34a;
+        }
+
+        footer {
+            margin-top: auto;
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-<!-- Barra de navegación lateral -->
-<div class="sidebar">
-  <h2 class="text-white text-2xl text-center mb-6 font-semibold">FACULTAD DE ODONTOLOGIA</h2>
-  <a href="dashboard.html">
-    <i class="fas fa-tachometer-alt"></i> Dashboard
-  </a>
-  <a href="mis-pacientes.html">
-    <i class="fas fa-user-injured"></i> Mis Pacientes
-  </a>
-  <a href="proximas-citas.html">
-    <i class="fas fa-calendar-alt"></i> Próximas Citas
-  </a>
-  <a href="mi-desempeno.html" class="active">
-    <i class="fas fa-chart-line"></i> Mi Desempeño
-  </a>
-  <a href="historial-clinico.html">
-    <i class="fas fa-file-medical"></i> Historial Clínico
-  </a>
-  <a href="gestion-pacientes.html">
-    <i class="fas fa-users-cog"></i> Gestión de Pacientes
-  </a>
-  <a href="tareas-asignadas.html">
-    <i class="fas fa-tasks"></i> Tareas Asignadas
-  </a>
-  <a href="recursos-aprendizaje.html">
-    <i class="fas fa-book"></i> Recursos de Aprendizaje
-  </a>
-  <a href="consultas-profesores.html">
-    <i class="fas fa-comments"></i> Consultas a Profesores
-  </a>
-  <a href="documentos-informes.html">
-    <i class="fas fa-file-alt"></i> Documentos e Informes
-  </a>
-  <a href="evaluacion-seguimiento.html">
-    <i class="fas fa-check-circle"></i> Evaluación y Seguimiento
-  </a>
-  <a href="citas-tratamientos.html">
-    <i class="fas fa-stethoscope"></i> Citas y Tratamientos
-  </a>
-</div>
+<!-- Botón de menú -->
+<button class="menu-button" id="menu-toggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Barra lateral -->
+<aside class="sidebar" id="sidebar">
+    <h2>Panel de Control</h2>
+    <ul>
+        <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a href="#"><i class="fas fa-user-md"></i> Pacientes</a></li>
+        <li><a href="#"><i class="fas fa-calendar-alt"></i> Citas</a></li>
+        <li><a href="#"><i class="fas fa-tasks"></i> Tareas</a></li>
+        <li><a href="#"><i class="fas fa-chart-bar"></i> Informes</a></li>
+        <li><a href="#"><i class="fas fa-book"></i> Recursos</a></li>
+        <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+    </ul>
+</aside>
 
 <!-- Contenido principal -->
-<div class="content">
-  <h1 class="text-4xl font-bold text-gray-900 mb-8">Mi Desempeño</h1>
+<main class="content">
+    <header>
+        <h1>Gestión de Disponibilidad</h1>
+        <p>Organiza y administra tus horarios de forma eficiente.</p>
+    </header>
 
-  <!-- Gráfico de barras para mostrar el desempeño -->
-  <div class="chart-container">
-    <h2 class="chart-title">Evaluación de Competencias</h2>
-    <canvas id="competenciasChart"></canvas>
-  </div>
-</div>
+    <div class="grid">
+        <div class="card calendar-container">
+            <h2>Calendario</h2>
+            <div class="calendar" id="calendar"></div>
+            <h2>Horarios Disponibles</h2>
+            <ul class="availability-list" id="availability-list"></ul>
+        </div>
+    </div>
 
-<!-- Script para el gráfico de barras -->
+    <button class="btn" id="save-btn">Guardar Disponibilidad</button>
+</main>
+
+<footer>
+    &copy; 2024 Gestión de Disponibilidad
+</footer>
+
 <script>
-  const ctx = document.getElementById('competenciasChart').getContext('2d');
-  const competenciasChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Diagnóstico', 'Tratamiento', 'Comunicación', 'Ética', 'Técnica'],
-      datasets: [{
-        label: 'Calificación',
-        data: [85, 92, 78, 95, 88],
-        backgroundColor: [
-          '#10B981', /* Verde */
-          '#4F46E5', /* Azul */
-          '#FBBF24', /* Amarillo */
-          '#F87171', /* Rojo */
-          '#60A5FA'  /* Azul claro */
-        ],
-        borderColor: [
-          '#10B981',
-          '#4F46E5',
-          '#FBBF24',
-          '#F87171',
-          '#60A5FA'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: '#374151' /* Color gris oscuro */
-          }
-        },
-        x: {
-          ticks: {
-            color: '#374151' /* Color gris oscuro */
-          }
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    // Toggle para la barra lateral
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+    });
+
+    const times = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'];
+    let selectedDate = null;
+
+    function renderCalendar() {
+        const calendar = document.getElementById('calendar');
+        const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+        calendar.innerHTML = '';
+
+        // Encabezados
+        daysOfWeek.forEach(day => {
+            const header = document.createElement('div');
+            header.className = 'calendar-header';
+            header.textContent = day;
+            calendar.appendChild(header);
+        });
+
+        // Días del mes
+        const today = new Date();
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+        // Espacios vacíos antes del primer día
+        for (let i = 0; i < firstDay.getDay(); i++) {
+            const emptyCell = document.createElement('div');
+            calendar.appendChild(emptyCell);
         }
-      },
-      plugins: {
-        legend: {
-          display: false
+
+        // Días del mes
+        for (let i = 1; i <= lastDay.getDate(); i++) {
+            const day = document.createElement('div');
+            day.className = 'calendar-day';
+            day.textContent = i;
+
+            if (i === today.getDate()) {
+                day.classList.add('selected');
+            }
+
+            day.addEventListener('click', () => {
+                document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
+                day.classList.add('selected');
+                selectedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${i}`;
+                renderAvailability();
+            });
+
+            calendar.appendChild(day);
         }
-      }
     }
-  });
+
+    function renderAvailability() {
+        const list = document.getElementById('availability-list');
+        list.innerHTML = '';
+
+        if (!selectedDate) {
+            list.innerHTML = '<li>Seleccione una fecha en el calendario.</li>';
+            return;
+        }
+
+        times.forEach(time => {
+            const item = document.createElement('li');
+            const label = document.createElement('span');
+            label.textContent = `${selectedDate} - ${time}`;
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+
+            item.appendChild(label);
+            item.appendChild(checkbox);
+            list.appendChild(item);
+        });
+    }
+
+    document.getElementById('save-btn').addEventListener('click', () => {
+        const checkboxes = document.querySelectorAll('#availability-list input[type="checkbox"]');
+        const selectedTimes = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.previousSibling.textContent);
+
+        if (selectedDate && selectedTimes.length > 0) {
+            alert(`Disponibilidad guardada para ${selectedDate}: ${selectedTimes.join(', ')}`);
+        } else {
+            alert('Por favor selecciona una fecha y al menos un horario.');
+        }
+    });
+
+    renderCalendar();
 </script>
 
 </body>
